@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% form_theme contactForm 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Ajouter un contact{% endblock %}
+
+{% block body %}
+    <h2>{{ 'Contact Add' | trans }}</h2>
+
+    {{ form_start(contactForm, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_row(contactForm.firstName) }}
+    {{ form_row(contactForm.lastName) }}
+    {{ form_row(contactForm.email) }}
+    {{ form_row(contactForm.phone) }}
+    {{ form_row(contactForm.company) }}
+    <div>
+        <button class="btn btn-primary">Ajouter</button>
+    </div>
+    {{ form_end(contactForm) }}
+{% endblock %}

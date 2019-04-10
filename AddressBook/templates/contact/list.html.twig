@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des contacts{% endblock %}
+
+{% block body %}
+<h2>Liste des contacts</h2>
+    <table class="table">
+        {% for c in contacts %}
+        <tr>
+            <td>
+                {{ c.firstName }} {{ c.lastName }}
+            </td>
+            <td>
+                <a href="{{ path('app_contact_show', {'id': c.id}) }}">Afficher</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ path('app_contact_add') }}">Ajouter</a>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    body {
+     /*   background: coral; */
+    }
+</style>
+{% endblock %}

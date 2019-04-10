@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Afficher un contact{% endblock %}
+
+{% block body %}
+<h2>Afficher un contact</h2>
+
+    <p>
+        <b>Prénom</b>
+        {{ contact.firstName }}
+    </p>
+
+    <p>
+        <b>Nom</b>
+        {{ contact.lastName | upper }}
+    </p>
+
+    {% if contact.email %}
+        <p>
+            <b>Email</b>
+            {{ contact.email }}
+        </p>
+    {% endif %}
+
+    {% if contact.phone %}
+    <p>
+        <b>Téléphone</b>
+        {{ contact.phone }}
+    </p>
+    {% endif %}
+
+    {% if contact.company %}
+        <p>
+            <b>Société</b>
+            {{ contact.company.name }}
+        </p>
+    {% endif %}
+
+    <p>
+        <b>Dernière mise à jour</b>
+        {{ contact.updateAt | date('d/m/Y') }}
+        à
+        {{ contact.updateAt | date('H:i:s') }}
+    </p>
+
+    <p>
+        Date actuelle :  {{ date() | date('d/m/Y') }}
+        à
+        {{ date() | date('H:i:s') }}
+    </p>
+{% endblock %}
