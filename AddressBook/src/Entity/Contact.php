@@ -63,6 +63,18 @@ class Contact
         return $this->id;
     }
 
+    /**
+     * @param mixed $id
+     * @return Contact
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+
+
     public function getFirstName(): ?string
     {
         return $this->firstName;

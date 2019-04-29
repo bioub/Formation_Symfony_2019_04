@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Manager\ContactManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,15 +14,27 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ContactController extends AbstractController
 {
+    /** @var ContactManager */
+    protected $contactManager;
+
+    /**
+     * ContactController constructor.
+     * @param ContactManager $contactManager
+     */
+    public function __construct(ContactManager $contactManager)
+    {
+        $this->contactManager = $contactManager;
+    }
+
     /**
      * @Route("/", methods={"GET"})
      */
     public function list()
     {
-        $repo = $this->getDoctrine()->getRepository(Contact::class);
+        $contacts = $this->contactManager->getAll();
 
         return $this->render('contact/list.html.twig', [
-            'contacts' => $repo->findBy([], ['firstName' => 'ASC'], 100),
+            'contacts' => $contacts,
         ]);
     }
 
