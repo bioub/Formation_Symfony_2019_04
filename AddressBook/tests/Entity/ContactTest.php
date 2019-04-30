@@ -31,4 +31,10 @@ class ContactTest extends TestCase
         $this->contact->setFirstName('Romain');
         $this->assertEquals('Romain', $this->contact->getFirstName());
     }
+
+    public function testGetSetLastName()
+    {
+        $this->contact->setLastName('Dupont');
+        $this->assertEquals('Dupont', $this->contact->getLastName());
+    }
 }

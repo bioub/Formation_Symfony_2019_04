@@ -27,4 +27,11 @@ class ContactManager
 
         return $repo->findBy([], ['firstName' => 'ASC'], 100);
     }
+
+    public function getById($id)
+    {
+        $repo = $this->doctrine->getRepository(Contact::class);
+
+        return $repo->find($id);
+    }
 }

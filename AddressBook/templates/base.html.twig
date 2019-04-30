@@ -10,7 +10,9 @@
     <body>
         {% include '_navbar.html.twig' %}
         <div class="container-fluid mt-3">
-            {% include '_flashAlert.html.twig' %}
+{#            {% include '_flashAlert.html.twig' %}#}
+            {{ alert('Ceci est une alerte', 'success') }}
+            {{ flashAlert('success') }}
             {% block body %}{% endblock %}
         </div>
         {{ encore_entry_script_tags('app') }}

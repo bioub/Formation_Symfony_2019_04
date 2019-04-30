@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ContactControllerTest extends WebTestCase
 {
-    public function testListContactWithDatabase()
+    public function testListWithDatabase()
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/contacts/');
@@ -51,13 +51,15 @@ class ContactControllerTest extends WebTestCase
 //        $this->assertCount(1, $crawler->filter('h2 + table tr'));
 //    }
 
-    public function testListContactWithoutDatabase()
+    public function testListWithoutDatabase()
     {
         $client = static::createClient();
 
         // remplacer le vrai objet par le faux (ContactManager et sa méthode getAll)
         $contacts = [
             (new Contact())->setFirstName('Jean')->setLastName('Dupont')->setId(123),
+            (new Contact())->setFirstName('Eric')->setLastName('Martin')->setId(234),
+            (new Contact())->setFirstName('Pascal')->setLastName('Mathieu')->setId(456),
         ];
 
         $mockManager = $this->prophesize(ContactManager::class);
@@ -71,6 +73,26 @@ class ContactControllerTest extends WebTestCase
         $this->assertContains('Liste des contacts', $crawler->filter('h2')->text());
 
         // ça fonctionne toujours et c'est plus performant
-        $this->assertCount(1, $crawler->filter('h2 + table tr'));
+        $this->assertCount(3, $crawler->filter('h2 + table tr'));
+    }
+
+    public function testShowWithoutDatabase()
+    {
+        $client = static::createClient();
+
+        $contact = (new Contact())->setFirstName('Jean')->setLastName('Dupont')->setId(123);
+
+        $mockManager = $this->prophesize(ContactManager::class);
+        $mockManager->getById('123')->willReturn($contact)->shouldBeCalledOnce();
+
+        self::$container->set(ContactManager::class, $mockManager->reveal());
+
+        $crawler = $client->request('GET', '/contacts/123');
+
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
+        $this->assertContains('Afficher un contact', $crawler->filter('h2')->text());
+
+        $this->assertContains('Jean', $crawler->filter('h2 ~ p')->eq(0)->text());
+        $this->assertContains('DUPONT', $crawler->filter('h2 ~ p')->eq(1)->text());
     }
 }

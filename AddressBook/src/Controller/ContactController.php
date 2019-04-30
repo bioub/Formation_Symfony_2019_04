@@ -71,12 +71,9 @@ class ContactController extends AbstractController
      */
     public function show($id)
     {
-        $repo = $this->getDoctrine()->getRepository(Contact::class);
-
-        $contact = $repo->find($id);
+        $contact = $this->contactManager->getById($id);
 
         if (!$contact) {
-            // return $this->redirectToRoute('app_contact_list');
             throw $this->createNotFoundException('Contact not found');
         }
 

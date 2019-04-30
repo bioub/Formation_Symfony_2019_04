@@ -35,3 +35,8 @@ services:
 #    App\Controller\ContactController:
 #        class: App\Controller\ContactController
 #        arguments: ['@contactManager']
+
+#    twig.extension.alert:
+#        class: App\Twig\Extension\AlertExtension
+#        tags:
+#            - twig.extension
