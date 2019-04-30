@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -48,9 +50,17 @@ class Contact
 
     /**
      * @var Company
-     * @ORM\ManyToOne(targetEntity="App\Entity\Company", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="contacts")
      */
     protected $company;
+
+    /** @ORM\ManyToMany(targetEntity="App\Entity\Group") */
+    protected $groups;
+
+    public function __construct()
+    {
+        $this->groups = new ArrayCollection();
+    }
 
     /** @ORM\PrePersist() */
     public function autoUpdateAt()
@@ -143,6 +153,32 @@ class Contact
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Group[]
+     */
+    public function getGroups(): Collection
+    {
+        return $this->groups;
+    }
+
+    public function addGroup(Group $group): self
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+        }
+
+        return $this;
+    }
+
+    public function removeGroup(Group $group): self
+    {
+        if ($this->groups->contains($group)) {
+            $this->groups->removeElement($group);
+        }
 
         return $this;
     }

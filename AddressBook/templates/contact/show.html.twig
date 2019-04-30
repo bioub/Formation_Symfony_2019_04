@@ -36,6 +36,15 @@
         </p>
     {% endif %}
 
+    {% if contact.groups %}
+        <p>
+            <b>Groupes</b>
+            {% for group in contact.groups %}
+                <span class="badge badge-primary">{{ group.name }}</span>
+            {% endfor %}
+        </p>
+    {% endif %}
+
     <p>
         <b>Dernière mise à jour</b>
         {{ contact.updateAt | date('d/m/Y') }}

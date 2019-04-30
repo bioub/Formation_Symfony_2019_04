@@ -19,6 +19,16 @@ class CompanyRepository extends ServiceEntityRepository
         parent::__construct($registry, Company::class);
     }
 
+    public function findAllWithAtLeastOneContact()
+    {
+        return $this->createQueryBuilder('cpn')
+            ->leftJoin('cpn.contacts', 'ctc')
+            ->groupBy('cpn.id')
+            ->having('COUNT(ctc.id) >= 1')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Company[] Returns an array of Company objects
     //  */

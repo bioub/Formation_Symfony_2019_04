@@ -20,6 +20,7 @@ class ContactType extends AbstractType
             ->add('email', EmailType::class)
             ->add('phone', TelType::class)
             ->add('company')
+            ->add('groups')
           //  ->add('submit', SubmitType::class)
         ;
     }

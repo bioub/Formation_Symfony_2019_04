@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Manager\ContactManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,10 +13,11 @@ class HomeController extends AbstractController
     /**
      * @Route("/")
      */
-    public function index()
+    public function index(ContactManager $contactManager)
     {
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
+            'contactStats' => $contactManager->countByCompany(),
         ]);
     }
 

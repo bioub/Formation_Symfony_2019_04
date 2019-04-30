@@ -22,6 +22,14 @@
         </tbody>
     </table>
 
+    <h2>Liste des contacts</h2>
+
+    <ul>
+        {% for contact in company.contacts %}
+        <li>{{ contact.firstName }} {{ contact.lastName }}</li>
+        {% endfor %}
+    </ul>
+
     <a href="{{ path('company_index') }}">back to list</a>
 
     <a href="{{ path('company_edit', {'id': company.id}) }}">edit</a>

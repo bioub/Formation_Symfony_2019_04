@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,6 +27,14 @@ class Company
      * @ORM\Column(type="string", length=80, nullable=true)
      */
     private $city;
+
+    /** @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="company") */
+    protected $contacts;
+
+    public function __construct()
+    {
+        $this->contacts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -58,5 +68,36 @@ class Company
     public function __toString()
     {
         return $this->name . ' - ' . $this->city;
+    }
+
+    /**
+     * @return Collection|Contact[]
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts[] = $contact;
+            $contact->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        if ($this->contacts->contains($contact)) {
+            $this->contacts->removeElement($contact);
+            // set the owning side to null (unless already changed)
+            if ($contact->getCompany() === $this) {
+                $contact->setCompany(null);
+            }
+        }
+
+        return $this;
     }
 }

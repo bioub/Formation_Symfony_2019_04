@@ -19,6 +19,17 @@ class ContactRepository extends ServiceEntityRepository
         parent::__construct($registry, Contact::class);
     }
 
+    public function findWithCompany($id)
+    {
+        $dql = "SELECT ctc, cpn
+                FROM App\Entity\Contact ctc 
+                LEFT JOIN ctc.company cpn
+                WHERE ctc.id = :id";
+
+        return $this->_em->createQuery($dql)
+            ->setParameter('id', $id)
+            ->getOneOrNullResult();
+    }
     // /**
     //  * @return Contact[] Returns an array of Contact objects
     //  */
